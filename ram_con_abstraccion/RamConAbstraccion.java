@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class RamConAbstraccion {
 
-    public static Proceso verificarMemoria(int ram[]){
+    public static Proceso verificarMemoria(String ram[]){ //TODO: arreglar bug: al eliminar una proceso y agregar uno nuevo se agrega al final no importa el tamanio
         int tamPidActual = 0;
         int tamPidAnterior = 0;
         boolean vacio = false;
@@ -10,11 +10,11 @@ public class RamConAbstraccion {
         int end = 0;
 
         for (int i = 0; i < ram.length; i++) {
-            if (ram[i] == 0 && vacio == false) {
+            if (ram[i] == "0" && vacio == false) {
                 vacio = true;
                 inicio = i;
             }
-            if (ram[i] != 0 && vacio == true) {
+            if (ram[i] != "0" && vacio == true) {
                 end = i;
                 vacio = false;
                 tamPidActual = end - inicio;
@@ -32,36 +32,53 @@ public class RamConAbstraccion {
         return process;
     }
 
-    public static int addProcess(int ram[],int tam){
-        int pid = (int) (Math.random() * 100+1);
+    public static int crecimientoDeEspacio(int tam) {
+        
+        double porcentaje = 0.20;
+        double tamBase =  tam;
+        double tamExtended = tam * porcentaje;
+        return (int) Math.ceil(tamExtended);
+
+    }
+    
+    public static int addProcess(String ram[],int tam){
+        int pidint = (int) (Math.random() * 100+1);
+        String pid = Integer.toString(pidint);
         int contador = 0;
         Proceso proceso = verificarMemoria(ram);
 
         if (tam <= proceso.tamano) {
+
+            int tamExpandido = tam + crecimientoDeEspacio(tam);
+
             for (int i = proceso.inicio; i < proceso.end; i++) { 
-                if (ram[i] == 0 && contador < tam) {
-                    ram[i] = pid;
+                if (contador < tamExpandido) {
+                    if (contador < tam) {
+                        ram[i] = pid;    
+                    }else{
+                        ram[i] = pid + "E";
+                    }
                     contador++;
                 }
             }
-            return pid;
+            return Integer.parseInt(pid);
         } else
             return -1;
         
     }
 
-    public static boolean ejecutarProcess(int ram[], int pid){
+    public static boolean ejecutarProcess(String ram[], String pid){
         boolean eliminado = false;
         for (int i = 0; i < ram.length; i++) {
-            if (ram[i] == pid){ 
-                ram[i] = 0;
+            if (ram[i].equals(pid) || ram[i].equals(pid + "E")){ 
+                ram[i] = "0";
                 eliminado = true;
             }
         }  
         return eliminado;
     }
 
-    public static void imprimirRam(int ram[],int tamRam){
+    public static void imprimirRam(String ram[],int tamRam){
 
         System.out.printf("\n\nRam:%dB\n",tamRam);
         System.out.print("\n[");
@@ -70,7 +87,7 @@ public class RamConAbstraccion {
             if (i == ram.length - 1) {
                 System.out.print(ram[i]);
             } else {
-                System.out.printf("%d,",ram[i]);
+                System.out.printf("%s,",ram[i]);
             }
         }
 
@@ -86,7 +103,7 @@ public class RamConAbstraccion {
         System.out.print("Selecciones una opcion: ");
     }
 
-    public static void imprimirBitMap(int ram[]) {
+    public static void imprimirBitMap(String ram[]) {
         String b = "\u001B[0m"; //borrar 
         String rojo = "\033[31m";
         String azul = "\033[34m";
@@ -94,7 +111,7 @@ public class RamConAbstraccion {
         int contador = 0;
         System.out.println("\n\n -------- Mapa de bits --------\n");
         for (int i = 0; i < ram.length; i++) {
-            if (ram[i] != 0) {
+            if (ram[i] != "0") {
                 System.out.print(rojo + "[1] "+ b);
             }else {
                 System.out.print("[0] ");
@@ -108,7 +125,7 @@ public class RamConAbstraccion {
         }
     }
 
-    public static void imprimirListaEnlazada(int ram[]) {
+    public static void imprimirListaEnlazada(String ram[]) {
         String b = "\u001B[0m"; //borrar
         String Rojo = "\033[31m";
         String verde = "\033[32m";
@@ -116,8 +133,8 @@ public class RamConAbstraccion {
         boolean enProceso = false;
         int inicio = 0;
         int end = 0;
-        int pidAct = 0;
-        int pidAnt = 0;
+        String pidAct = "0";
+        String pidAnt = "0";
 
         System.out.println("\nLista enlazada\n");
         for (int i = 0; i < ram.length; i++) {
@@ -135,9 +152,9 @@ public class RamConAbstraccion {
         System.out.print("[ " + verde + inicio + b + " ] [ " + Rojo + pidAnt + b + " ] [ " + verde + end + b +" ]--> \n");
     }
 
-    public static void llenarRam(int ram[]) {
+    public static void llenarRam(String ram[]) {
         for (int i = 0; i < ram.length; i++) {
-            ram[i] = 0;
+            ram[i] = "0";
         }
     }
 
@@ -145,7 +162,7 @@ public class RamConAbstraccion {
     public static void main(String[] args) {
         
         int tamRam = 32;
-        int[] ram = new int[tamRam];
+        String[] ram = new String[tamRam];
         llenarRam(ram);
         Scanner leer = new Scanner(System.in);
         int op = 0;
@@ -171,7 +188,7 @@ public class RamConAbstraccion {
 
                 case 2:
                     System.out.println("Escribe el PID del proceso a ejecutar");
-                    int npid = leer.nextInt();
+                    String npid = Integer.toString( leer.nextInt());
 
                     if (ejecutarProcess(ram,npid)) {
                         System.out.println("Proceso ejecutado correctamente: " + npid);
