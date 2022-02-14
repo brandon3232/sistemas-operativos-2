@@ -11,11 +11,11 @@ public class RamConAbstraccion {
         int end = 0;
 
         for (int i = 0; i < ram.length; i++) {
-            if (ram[i] == "0" && vacio == false) {
+            if (ram[i].equals("0") && vacio == false) {
                 vacio = true;
                 inicio = i;
             }
-            if (ram[i] != "0" && vacio == true) {
+            if (!(ram[i].equals("0")) && vacio == true) {
                 end = i;
                 vacio = false;
                 tamPidActual = end - inicio;
