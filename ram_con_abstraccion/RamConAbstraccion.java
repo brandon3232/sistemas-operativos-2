@@ -113,7 +113,7 @@ public class RamConAbstraccion {
         int contador = 0;
         System.out.println("\n\n -------- Mapa de bits --------\n");
         for (int i = 0; i < ram.length; i++) {
-            if (ram[i] != "0") {
+            if (ram[i].equals("0") ) {
                 System.out.print(rojo + "[1] " + b);
             } else {
                 System.out.print("[0] ");
@@ -132,7 +132,6 @@ public class RamConAbstraccion {
         String Rojo = "\033[31m";
         String verde = "\033[32m";
 
-        boolean enProceso = false;
         int inicio = 0;
         int end = 0;
         String pidAct = "0";
@@ -140,9 +139,9 @@ public class RamConAbstraccion {
 
         System.out.println("\nLista enlazada\n");
         for (int i = 0; i < ram.length; i++) {
-            if (ram[i] != pidAnt) {
-                enProceso = true;
-                if (end != 0) {
+            if (!ram[i].equals(pidAnt)  && !ram[i].equals(pidAnt + "E")) {
+                
+                if (end != 0 ) {
                     System.out.print("[ " + verde + inicio + b + " ] [ " + Rojo + pidAnt + b + " ] [ " + verde + end + b
                             + " ]--> ");
                 }
@@ -182,7 +181,7 @@ public class RamConAbstraccion {
         return process;
     }
 
-    public static void incrementarTamanio(String[] ram, Proceso process, int incremento) { //TODO: bug cuando se imprimen las listas enlazadas
+    public static void incrementarTamanio(String[] ram, Proceso process, int incremento) {
         int contador = 0;        
 
         for (int i = 0; i < ram.length; i++) {
@@ -228,7 +227,7 @@ public class RamConAbstraccion {
                     if ((pid = addProcess(ram, tam)) > 0)
                         System.out.printf("Proceso agregado correctamente: %d\n", pid);
                     else
-                        System.out.println("Error al agregar el proceso");
+                        System.out.println("Error al agregar el proceso, espacio en RAM insuficiente");
 
                     break;
 
