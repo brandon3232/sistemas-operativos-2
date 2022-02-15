@@ -2,41 +2,38 @@ import java.util.Scanner;
 
 public class RamConAbstraccion {
 
-    public static Proceso verificarMemoria(String ram[]) { // TODO: arreglar bug: al eliminar una proceso y agregar uno
-                                                           // nuevo se agrega al final no importa el tamanio
+    public static Proceso verificarMemoria(String[] ram, int tam) { 
+                                                           
         int tamPidActual = 0;
-        int tamPidAnterior = 0;
         boolean vacio = false;
         int inicio = 0;
         int end = 0;
 
         for (int i = 0; i < ram.length; i++) {
-            if (ram[i].equals("0") && vacio == false) {
+            if (ram[i].equals("0") && !vacio) {
                 vacio = true;
                 inicio = i;
             }
-            if (!(ram[i].equals("0")) && vacio == true) {
+            if (!(ram[i].equals("0")) && vacio) {
                 end = i;
                 vacio = false;
                 tamPidActual = end - inicio;
-                if (tamPidActual > tamPidAnterior)
-                    tamPidAnterior = tamPidActual;
+
+                if (tamPidActual >= tam)
+                    break;
             }
         }
-        if (vacio == true) {
+        if (vacio) {
             end = ram.length;
-            tamPidActual = (end + 1) - inicio;
-            if (tamPidActual > tamPidAnterior)
-                tamPidAnterior = tamPidActual;
+            tamPidActual = end - inicio;
         }
-        return new Proceso(0, tamPidAnterior, inicio, end);
+        return new Proceso(0, tamPidActual, inicio, end);
         
     }
 
     public static int crecimientoDeEspacio(int tam) {
 
         double porcentaje = 0.20;
-        double tamBase = tam;
         double tamExtended = tam * porcentaje;
         return (int) Math.ceil(tamExtended);
 
@@ -46,11 +43,14 @@ public class RamConAbstraccion {
         int pidint = (int) (Math.random() * 100 + 1);
         String pid = Integer.toString(pidint);
         int contador = 0;
-        Proceso proceso = verificarMemoria(ram);
+        Proceso proceso;
 
-        if (tam <= proceso.tamano) {
 
-            int tamExpandido = tam + crecimientoDeEspacio(tam);
+        int tamExpandido = tam + crecimientoDeEspacio(tam);
+
+        proceso = verificarMemoria(ram, tamExpandido);
+
+        if (tamExpandido <= proceso.tamano) {
 
             for (int i = proceso.inicio; i < proceso.end; i++) {
                 if (contador < tamExpandido) {
