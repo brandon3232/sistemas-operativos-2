@@ -228,7 +228,6 @@ public class RamConAbstraccion {
                         System.out.printf("Proceso agregado correctamente: %d\n", pid);
                     else
                         System.out.println("Error al agregar el proceso, espacio en RAM insuficiente");
-
                     break;
 
                 case 2:
