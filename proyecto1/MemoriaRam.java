@@ -76,6 +76,11 @@ public class MemoriaRam {
         int[] espacio;
 
         do {
+            
+            if (moverProcesos.isEmpty()) 
+            throw new CustomException("No hay espacio suficiente en RAM para agregar el proceso");
+            
+
             if (!(moverProceso(moverProcesos.get(0).pid, mv))) 
                  System.out.println("no hay suficiente espacion en Memoria Virtual, proceso " + moverProcesos.get(0).pid + "eliminado");   
 

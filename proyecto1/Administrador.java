@@ -62,9 +62,15 @@ public class Administrador {
         if ((ram.memoriaLlena || espacioLibre[0] < p1.tamano) && p1.estado == 'x') {
             
             try {
-                ram.liberarEspacio(proceso[2], mv);
-                //TODO: implementar la insercion del nuevo proceso
 
+                ram.liberarEspacio(proceso[2], mv);
+                Proceso p = new Proceso(proceso[0], proceso[1]);
+                
+                if (ram.agregarProceso(p))
+                    System.out.println("El proceso " + p.pid + " se agrego correctamente");    
+                else 
+                    System.out.println("Error al agregar el proceso en RAM " + p.pid);    
+                    
 
             } catch (CustomException e) {
                 
@@ -86,7 +92,13 @@ public class Administrador {
 
                                         try {
                                             mv.liberarEspacio(p1.tamano);
-                                            //TODO: implementar la insercion del nuevo proceso
+
+                                            Proceso p2 = new Proceso(proceso[0], proceso[1]);
+                
+                                            if (mv.agregarProceso(p2))
+                                                System.out.println("El proceso " + p.pid + " se agrego correctamente");    
+                                            else 
+                                                System.out.println("Error al agregar el proceso en Memoria virtual " + p.pid);
                                             
                                         } catch (CustomException a) {
                                             System.out.println("Error: " + a.getMessage());
@@ -123,7 +135,12 @@ public class Administrador {
             
         }else{
 
-            //TODO: implementar verificacion de espacio suficiente para insertar el nuevo proceso
+            Proceso p = new Proceso(proceso[0], proceso[1]);
+                
+            if (ram.agregarProceso(p))
+                System.out.println("El proceso " + p.pid + " se agrego correctamente");    
+            else 
+                System.out.println("Error al agregar el proceso " + p.pid);
 
         }
 
