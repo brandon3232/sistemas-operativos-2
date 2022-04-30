@@ -40,5 +40,35 @@ public class MemoriaVirtual extends MemoriaRam{
          
     }
 
+    public void imprimirRam() {
+        String rojo = "\u001B[31m";
+        String amarillo = "\u001B[33m";
+        String verde = "\u001B[32m";
+        String blanco = "\u001B[37m";
+
+        Map<Integer, Character> map = procesos.stream()
+                .collect(Collectors.toMap(p -> p.pid, p -> p.estado));
+
+
+        System.out.println("\nMemoria Virtual: " + ram.length);
+
+        System.out.print("\n[");
+        
+        for (int i = 0; i < ram.length; i++) {
+            
+            if (ram[i] == 0) {
+                System.out.print(ram[i] + ",");
+            }else if (map.get(ram[i]) == 'x') {
+                System.out.print(rojo + ram[i] + "," + blanco);
+            } else if(map.get(ram[i]) == 'r') {
+                System.out.print(amarillo + ram[i] + "," + blanco);
+            } else if(map.get(ram[i]) == 'w'){
+                System.out.print(verde + ram[i] + "," + blanco);
+            }
+        }
+            
+        System.out.println("]");
+        
+    }
 
 }

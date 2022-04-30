@@ -79,48 +79,46 @@ public class Administrador {
                 switch (UI.menuAgregarOEliminar()) {
                     case 1:
                         
-                            Proceso p = new Proceso(proceso[0], proceso[1]);
-                            p.estado = 'r';
+                        Proceso p = new Proceso(proceso[0], proceso[1]);
+                        p.estado = 'r';
 
-                            if (mv.agregarProceso(p)) {
-                                System.out.println("Proceso " + p.pid + " se agrego correctamente a la Memoria Virtual");
-                            }else{
-                                int op = UI.menuAgregarOEliminarMV();
+                        if (mv.agregarProceso(p)) {
+                            System.out.println("Proceso " + p.pid + " se agrego correctamente a la Memoria Virtual");
+                        }else{
+                            int op = UI.menuAgregarOEliminarMV();
 
-                                switch(op){
-                                    case 1:
+                            switch(op){
+                                case 1:
 
-                                        try {
-                                            mv.liberarEspacio(p1.tamano);
+                                    try {
+                                        mv.liberarEspacio(p1.tamano);
 
-                                            Proceso p2 = new Proceso(proceso[0], proceso[1]);
-                
-                                            if (mv.agregarProceso(p2))
-                                                System.out.println("El proceso " + p.pid + " se agrego correctamente");    
-                                            else 
-                                                System.out.println("Error al agregar el proceso en Memoria virtual " + p.pid);
-                                            
-                                        } catch (CustomException a) {
-                                            System.out.println("Error: " + a.getMessage());
-                                            System.out.println("El proceso " + p1.pid + "se a eliminado");
-                                        }
+            
+                                        if (mv.agregarProceso(p1))
+                                            System.out.println("El proceso " + p1.pid + " se agrego correctamente");    
+                                        else 
+                                            System.out.println("Error al agregar el proceso en Memoria virtual " + p.pid);
                                         
-                                        
-                                        break;
+                                    } catch (CustomException a) {
+                                        System.out.println("Error: " + a.getMessage());
+                                        System.out.println("El proceso " + p1.pid + "se a eliminado");
+                                    }
                                     
-                                    case 2:
-                                        System.out.println("Proceso eliminado\n");
+                                    
+                                    break;
+                                
+                                case 2:
+                                    System.out.println("Proceso eliminado\n");
 
-                                        break;
-
-                                default:
-                                System.out.println("Opcion invalida, se cancelo la ultima accion");
                                     break;
 
-                                }
+                            default:
+                            System.out.println("Opcion invalida, se cancelo la ultima accion");
+                                break;
+
                             }
+                        }
                             
-                        
                         break;
                 
                     case 2:
