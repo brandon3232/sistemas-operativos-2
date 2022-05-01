@@ -26,17 +26,21 @@ public class Administrador {
                 case 3:
             
                     break;
+
+                case 4:
+                    admin.ram.imprimirRam();
+                    admin.ram.imprimirBitMap(); 
+                    admin.ram.imprimirListaEnlazada(); 
+                    
+                    admin.mv.imprimirRam();
+                    admin.mv.imprimirBitMap();
+                    admin.mv.imprimirListaEnlazada(); 
+
+                    break;
                 default:
                     break;
             }
-            
-
-
-
-
-
         }
-
     }
     
     
@@ -51,19 +55,17 @@ public class Administrador {
         if ((ram.memoriaLlena || espacioLibre[0] < p1.tamano) && !(p1.estado == 'x')) {
             
             if (mv.agregarProceso(p1)) {
-                System.out.println("El proceso " + p1.pid + "se agrego correctamente a la Memoria Virtual ");
+                System.out.println("El proceso " + p1.pid + " se agrego correctamente a la Memoria Virtual ");
             }else {
-                System.out.println("No hay espacio suficiente en Memoria Virtual, el proceso " + p1.pid + "se elimino");
+                System.out.println("No hay espacio suficiente en Memoria Virtual, el proceso " + p1.pid + " se elimino");
             }
             
-        }
-
-
-        if ((ram.memoriaLlena || espacioLibre[0] < p1.tamano) && p1.estado == 'x') {
-            
+        
+        }else if ((ram.memoriaLlena || espacioLibre[0] < p1.tamano) && p1.estado == 'x') {
+                
             try {
 
-                ram.liberarEspacio(proceso[2], mv);
+                ram.liberarEspacio(proceso[1], mv);
                 Proceso p = new Proceso(proceso[0], proceso[1]);
                 
                 if (ram.agregarProceso(p))
@@ -101,9 +103,8 @@ public class Administrador {
                                         
                                     } catch (CustomException a) {
                                         System.out.println("Error: " + a.getMessage());
-                                        System.out.println("El proceso " + p1.pid + "se a eliminado");
+                                        System.out.println("El proceso " + p1.pid + " se a eliminado");
                                     }
-                                    
                                     
                                     break;
                                 
@@ -123,7 +124,7 @@ public class Administrador {
                 
                     case 2:
                         System.out.println("Proceso eliminado\n");
-    
+
                         break;
                     default:
                     System.out.println("Opcion invalida, se cancelo la ultima accion");
@@ -141,7 +142,6 @@ public class Administrador {
                 System.out.println("Error al agregar el proceso " + p.pid);
 
         }
-
 
     }
     

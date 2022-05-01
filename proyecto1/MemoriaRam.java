@@ -13,36 +13,6 @@ public class MemoriaRam {
         memoriaLlena = false;
     }
 
-
-    public static void main(String[] args) {
-        MemoriaVirtual mv = new MemoriaVirtual(20);
-        MemoriaRam ram = new MemoriaRam(20);
-        ram.agregarProceso(new Proceso(1,4));  
-        ram.agregarProceso(new Proceso(2,6));  
-        ram.agregarProceso(new Proceso(3,5));  
-        ram.agregarProceso(new Proceso(4,2));  
-        ram.agregarProceso(new Proceso(5,3));  
-
-        ram.procesos.forEach(x ->{ 
-            System.out.println("Proceso en ram: " + x.pid + " " + x.tamano + " " + x.estado);
-        });
-
-        try {
-            ram.liberarEspacio(15, mv);
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-
-        ram.procesos.forEach(x ->{ 
-            System.out.println("Proceso: " + x.pid + " " + x.tamano + " " + x.estado);
-        });
-        
-        ram.imprimirRam();
-        mv.imprimirRam();
-        
-     }
-
-
     /**----------------------------------------------------------------*/
 
     /**EN CASO DE QUE LA MEMORIA ESTE LLENA DE LLAMA A ESTA FUNCION
@@ -85,7 +55,7 @@ public class MemoriaRam {
             
 
             if (!(moverProceso(moverProcesos.get(0).pid, mv))) 
-                 System.out.println("no hay suficiente espacion en Memoria Virtual, proceso " + moverProcesos.get(0).pid + "eliminado");   
+                 System.out.println("no hay suficiente espacion en Memoria Virtual, proceso " + moverProcesos.get(0).pid + " eliminado");   
 
                  
             eliminarProceso(moverProcesos.get(0).pid);
@@ -225,9 +195,55 @@ public class MemoriaRam {
         System.out.println("]");
         
     }
+    
 
+    public void imprimirBitMap() {
+        String b = "\u001B[0m"; // borrar
+        String rojo = "\033[31m";
 
+        int contador = 0;
+        System.out.println("\n\n -------- Mapa de bits --------\n");
+        for (int i = 0; i < ram.length; i++) {
+            if (ram[i] != 0 ) {
+                System.out.print(rojo + "[1] " + b);
+            } else {
+                System.out.print("[0] ");
+            }
+            if (contador < 7) {
+                contador++;
+            } else {
+                System.out.println("\n");
+                contador = 0;
+            }
+        }
+    }
+    
 
+    public void imprimirListaEnlazada() {
+        String b = "\u001B[0m"; // borrar
+        String Rojo = "\033[31m";
+        String verde = "\033[32m";
 
+        int inicio = 0;
+        int end = 0;
+        int pidAnt = 0;
+
+        System.out.println("\nLista enlazada\n");
+        for (int i = 0; i < ram.length; i++) {
+            if (!(ram[i] == pidAnt)) {
+                
+                if (end != 0 ) {
+                    System.out.print("[ " + verde + inicio + b + " ] [ " + Rojo + pidAnt + b + " ] [ " + verde + end + b
+                            + " ]--> ");
+                }
+
+                pidAnt = ram[i];
+                inicio = i;
+            }
+            end = i;
+        }
+        System.out.print(
+                "[ " + verde + inicio + b + " ] [ " + Rojo + pidAnt + b + " ] [ " + verde + end + b + " ]--> \n");
+    }
 
 }
