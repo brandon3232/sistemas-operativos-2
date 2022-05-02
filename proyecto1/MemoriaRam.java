@@ -147,22 +147,30 @@ public class MemoriaRam {
     }
 
 
-    public void eliminarProceso(int pid){
+    public boolean eliminarProceso(int pid){
 
-        procesos.removeIf(p -> p.pid == pid);
-
-        for (int i = 0; i < ram.length; i++) { 
-            if (ram[i] == pid) {
-                ram[i] = 0;
+        if (procesos.stream().anyMatch(p -> p.pid == pid)) {
+            
+            procesos.removeIf(p -> p.pid == pid);
+    
+            for (int i = 0; i < ram.length; i++) { 
+                if (ram[i] == pid) {
+                    ram[i] = 0;
+                }
             }
+    
+            int[] espacioLibre = verificarEspacio(32);
+    
+            if (espacioLibre[0] == 0)
+                this.memoriaLlena = true;
+            else
+                this.memoriaLlena = false;
+
+            return true;
+        }else{
+            return false;
         }
 
-        int[] espacioLibre = verificarEspacio(20);
-
-        if (espacioLibre[0] == 0)
-            this.memoriaLlena = true;
-        else
-            this.memoriaLlena = false;
     }
     
     public void imprimirRam() {
@@ -244,6 +252,26 @@ public class MemoriaRam {
         }
         System.out.print(
                 "[ " + verde + inicio + b + " ] [ " + Rojo + pidAnt + b + " ] [ " + verde + end + b + " ]--> \n");
+    }
+    
+
+    public boolean finalizarLinea(){
+        int pid = 0;
+
+        for (int celda: ram) {
+            if (celda != 0) {
+                pid = celda;
+                break;
+            }
+        }
+        
+        if (pid != 0) {
+            eliminarProceso(pid);
+            return true;
+        }else{
+            return false;
+        }
+
     }
 
 }

@@ -20,7 +20,9 @@ public class Administrador {
                     break;
                 
                 case 2:
-    
+                    //* Finalizar: tendra dos opciones, por cola y por pid
+                    //* por cola: se elimina el primero proceso en ram de izquierda a derecha
+                    //* por pid: se busca en ram y en mv el proceso, si no se encuenrta
                     break;
                                     
                 case 3:

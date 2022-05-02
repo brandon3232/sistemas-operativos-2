@@ -8,7 +8,7 @@ public class UI {
 
         System.out.println("\n----------MENU---------");
         System.out.println("[1] Agregar proceso");
-        System.out.println("[2] Ejecutar proceso");
+        System.out.println("[2] Finalizar");
         System.out.println("[3] Modificar tamanio");
         System.out.println("[4] Imprimir RAM");
         System.out.println("[5] Salir");
@@ -64,6 +64,29 @@ public class UI {
         return op;
     }
 
-                                    
+    public static int menuFinalizar(){
+        Scanner leer = new Scanner(System.in);
+
+        System.out.println("\n");
+        System.out.println("Finalizar:");
+        System.out.println("[1] Finalizar por linea (RAM)");
+        System.out.println("[2] Finalizar por pid");
+        System.out.println("elija una opcion: ");
+        
+        int op = leer.nextInt();
+        return op;
+    }
+
+    public static int eliminarPid(){
+        Scanner leer = new Scanner(System.in);
+
+        System.out.println("\n");
+        System.out.println("Ingrese el pid del proceso a eliminar:");
+
+        int pid = leer.nextInt();
+
+        return pid;
+        
+    }
 
 }
