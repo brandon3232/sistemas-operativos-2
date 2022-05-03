@@ -274,4 +274,22 @@ public class MemoriaRam {
 
     }
 
+    public void compactar() {
+        int inLib = 0;
+        boolean flag = false;
+
+        for (int i = 0; i < ram.length; i++) {
+            
+            if (ram[i] ==0 && flag == false) {
+                inLib = i;
+                flag = true;
+            }
+            if (ram[i] != 0 &&flag == true) {
+                ram[inLib] = ram[i];
+                ram[i] = 0;
+                inLib++;
+            }
+        }
+    }
+
 }

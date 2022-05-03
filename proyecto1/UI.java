@@ -9,7 +9,7 @@ public class UI {
         System.out.println("\n----------MENU---------");
         System.out.println("[1] Agregar proceso");
         System.out.println("[2] Finalizar");
-        System.out.println("[3] Modificar tamanio");
+        System.out.println("[3] compactar");
         System.out.println("[4] Imprimir RAM");
         System.out.println("[5] Salir");
         System.out.print("Selecciones una opcion: ");

@@ -14,19 +14,16 @@ public class Administrador {
 
             switch (opcion) {
                 case 1:
-                    
                     admin.nuevoProceso();
-
                     break;
                 
                 case 2:
-                    //* Finalizar: tendra dos opciones, por cola y por pid
-                    //* por cola: se elimina el primero proceso en ram de izquierda a derecha
-                    //* por pid: se busca en ram y en mv el proceso, si no se encuenrta
+                    admin.finalizar();
                     break;
                                     
                 case 3:
-            
+                    admin.ram.compactar();
+                    admin.mv.compactar();
                     break;
 
                 case 4:
@@ -35,17 +32,16 @@ public class Administrador {
                     admin.ram.imprimirListaEnlazada(); 
                     
                     admin.mv.imprimirRam();
-                    admin.mv.imprimirBitMap();
-                    admin.mv.imprimirListaEnlazada(); 
-
                     break;
                 default:
+                    System.out.println("Opcion invalida");
                     break;
             }
         }
     }
-    
-    
+    //* punto extra: Ejecucion por ciclos: cambiar el estado de un proceso <-- manual
+    //*                                    cambiar el estado de todos los procesos <-- aleatorios
+    //* al cambiar a estado de ejecucion se intenta mover a memoria ram, si no puede se elimina o se queda en mv con estado de espera 
 
     public void nuevoProceso(){
         
@@ -147,4 +143,35 @@ public class Administrador {
 
     }
     
+    public void finalizar(){
+        int op = UI.menuFinalizar();
+        
+        switch (op) {
+            case 1:
+                if (ram.finalizarLinea()) {
+                    System.out.println("Proceso finalizo correctamente");
+                }else {
+                    System.out.println("No se encontro proceso para finalizar");
+                }
+                break;
+
+            case 2:
+
+                int pid = UI.eliminarPid();
+                if (ram.eliminarProceso(pid)) {
+                    System.out.println("El proceso " + pid + " se finalizo correctamente");
+                }else if(mv.eliminarProceso(pid)){
+                    System.out.println("El proceso " + pid + " se finalizo correctamente");
+                }else {
+                    System.out.println("No se encontro el proceso para finalizar");
+                }
+                break;
+        
+            default:
+                    System.out.println("Opcion invalida");
+                break;
+        }
+
+    }
+
 }
